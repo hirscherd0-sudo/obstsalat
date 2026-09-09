@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bedürfnisse und Motivation — Arbeitsblatt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEE8DB;
+    --paper-line:#D9CFB8;
+    --ink:#242018;
+    --ink-soft:#5C5646;
+    --navy:#33415C;
+    --navy-deep:#232C3F;
+    --mustard:#D79922;
+    --moss:#5B7B5D;
+    --moss-bg:#E4EBDE;
+    --clay:#AB4B2F;
+    --clay-bg:#F3E1D8;
+    --card:#FBF8F1;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 2.15em;
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    padding-bottom:80px;
+  }
+  
+  /* --- Login & Admin Dashboard Styles --- */
+  .auth-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .login-box {
+    background: var(--card); border: 1px solid var(--paper-line);
+    padding: 2.5em; border-radius: var(--radius); box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 100%; max-width: 400px; text-align: center;
+    position: relative;
+  }
+  .login-box h2 { font-family: 'Fraunces', serif; color: var(--navy); margin-top: 0; }
+  .login-box input {
+    width: 100%; padding: 0.8em; margin-bottom: 1em;
+    border: 1.5px solid var(--paper-line); border-radius: 8px; font-family: inherit;
+  }
+  .login-box input:focus { outline: 2px solid var(--navy); }
+  .login-error { color: var(--clay); font-size: 0.85em; font-weight: 600; margin-bottom: 1em; min-height: 1.2em;}
+  .login-footer { font-size: 0.8em; color: var(--ink-soft); margin-top: 2em; letter-spacing: 0.05em; font-weight: 600; }
+  
+  #admin-dashboard {
+    max-width: 800px; margin: 3em auto; padding: 2em;
+    background: var(--card); border: 1px solid var(--paper-line); border-radius: var(--radius);
+    display: none;
+  }
+  .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2em; border-bottom: 3px solid var(--ink); padding-bottom: 1em;}
+  .admin-header h1 { font-family: 'Fraunces', serif; margin: 0; color: var(--navy); }
+  table.admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95em; }
+  .admin-table th { background: var(--navy); color: #fff; padding: 0.8em; font-weight: 600; }
+  .admin-table td { padding: 0.8em; border-bottom: 1px solid var(--paper-line); }
+  .admin-table tr:hover { background: rgba(0,0,0,0.03); }
+  .tag-grade { padding: 0.2em 0.6em; border-radius: 20px; font-weight: 700; font-size: 0.9em; }
+  .grade-1, .grade-2 { background: var(--moss-bg); color: #2E4630; }
+  .grade-3, .grade-4 { background: #FAF0E8; color: #8A6443; }
+  .grade-5, .grade-6 { background: var(--clay-bg); color: #7A3620; }
+  .btn-small { padding: 0.3em 0.7em; font-size: 0.8em; background: var(--clay); color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+  .btn-small:hover { background: #8C3A22; }
+
+  /* --- Main Worksheet Styles --- */
+  .sheet{
+    max-width:760px;
+    margin:0 auto;
+    padding:2.5em 1.4em 1em;
+    display: none; /* Hidden until login */
+  }
+  
+  header.title-block{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:1.5em;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:0.6em;
+    margin-bottom:1.8em;
+    background:transparent;
+  }
+  header.title-block h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:2.1em;
+    line-height:1.05;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  header.title-block .meta{
+    font-size:0.95em;
+    color:var(--ink-soft);
+    text-align:right;
+    white-space:nowrap;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:0.3em;
+  }
+  .student-name-display { font-weight: 700; color: var(--navy); }
+  .hirscher-branding { font-size: 0.8em; font-weight: 700; letter-spacing: 0.1em; color: var(--ink-soft); opacity: 0.7;}
+  
+  .intro{ font-size:0.95em; color:var(--ink-soft); margin-bottom:2.2em; max-width:56ch; }
+
+  section.task{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:var(--radius);
+    box-shadow:0 1px 0 rgba(36,32,24,0.04);
+    padding:1.6em 1.6em 1.7em;
+    margin-bottom:1.6em;
+    position:relative;
+  }
+  .task-head{ display:flex; align-items:baseline; gap:0.7em; margin-bottom:0.9em; }
+  .task-num{ font-family:'Fraunces', serif; font-weight:700; font-size:1.6em; color:var(--navy); line-height:1; min-width:1.1em; }
+  .task-head h2{ font-family:'Fraunces', serif; font-weight:600; font-size:1.18em; margin:0; flex:1; }
+  .points{ font-size:0.78em; color:var(--ink-soft); border:1px solid var(--paper-line); border-radius:20px; padding:0.15em 0.7em; white-space:nowrap; background:var(--paper); }
+
+  select.answer-select, input.term-input{
+    width:100%; font-family:'Public Sans', sans-serif; font-size:0.98em;
+    padding:0.65em 0.8em; border-radius:8px; border:1.5px solid var(--paper-line);
+    background:#fff; color:var(--ink); margin-bottom:0.7em; transition: border-color 0.2s, background-color 0.2s;
+  }
+  select.answer-select:focus, input.term-input:focus{ outline:2px solid var(--navy); outline-offset:1px; }
+  
+  .ok{ border-color: var(--moss) !important; background-color: var(--moss-bg) !important; color: #2E4630; }
+  .err{ border-color: var(--clay) !important; background-color: var(--clay-bg) !important; color: #7A3620; }
+
+  button{ font-family:'Public Sans', sans-serif; cursor:pointer; }
+  .btn{ background:var(--navy); color:#fff; border:none; padding:0.55em 1.1em; border-radius:7px; font-size:0.88em; font-weight:600; transition:background .15s ease; }
+  .btn:hover{ background:var(--navy-deep); }
+  .btn.large { padding: 0.8em 1.5em; font-size: 1.1em; box-shadow: 0 4px 12px rgba(51, 65, 92, 0.2); }
+  .btn.outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+  .btn.outline:hover { background: var(--navy); color: #fff; }
+  
+  .logout-btn { font-size: 0.8em; padding: 0.2em 0.6em; background: #e2e8f0; color: var(--ink-soft); border-radius: 5px; border: none; margin-top: 0.5em; }
+  .logout-btn:hover { background: #cbd5e1; }
+
+  /* Puzzle Elements */
+  .bank{ display:flex; flex-wrap:wrap; gap:0.5em; padding:0.8em; background:var(--paper); border:1.5px dashed var(--paper-line); border-radius:8px; margin-bottom:1em; min-height:2.6em; }
+  .piece{ background:var(--mustard); color:#3A2A05; border:none; padding:0.45em 0.85em; border-radius:6px; font-size:0.88em; font-weight:600; box-shadow:0 2px 0 rgba(0,0,0,0.12); transition:transform .1s ease, box-shadow .1s ease; }
+  .piece:hover{ transform:translateY(-1px); }
+  .piece.selected{ background:var(--navy) !important; color:#fff !important; box-shadow:0 2px 0 rgba(0,0,0,0.25); }
+  .piece.small{ font-size:0.8em; padding:0.3em 0.6em; }
+
+  .slot{ display:inline-flex; align-items:center; justify-content:center; min-width:8.5em; min-height:2.3em; border:2px dotted #A79E85; border-radius:6px; background:#fff; font-size:0.88em; font-weight:600; padding:0.3em 0.6em; color:var(--ink-soft); text-align:center; }
+  .slot:empty::before{ content:"– hier ablegen –"; font-weight:400; font-style:italic; color:#B4AB93; font-size:0.85em; }
+  .slot .piece{ margin:0; }
+  
+  /* Rubicon Color Variables */
+  .piece[data-group="rub-header"] { background: #3B82F6; color: white; }
+  .slot[data-group="rub-header"] { border-color: #3B82F6; background: rgba(59, 130, 246, 0.1); }
+  
+  .piece[data-group="rub-phase"] { background: #8B5CF6; color: white; }
+  .slot[data-group="rub-phase"] { border-color: #8B5CF6; background: rgba(139, 92, 246, 0.1); }
+  
+  .piece[data-group="rub-zone"] { background: #F59E0B; color: white; }
+  .rub-zone { border-color: #F59E0B !important; background: rgba(245, 158, 11, 0.1) !important; }
+  
+  .piece[data-group="rub-example"] { background: #10B981; color: white; }
+  .slot[data-group="rub-example"] { border-color: #10B981; background: rgba(16, 185, 129, 0.1); }
+
+  /* Generic correctness colors */
+  .slot.correct{ border-style:solid; border-color:var(--moss) !important; background:var(--moss-bg) !important; }
+  .slot.incorrect{ border-style:solid; border-color:var(--clay) !important; background:var(--clay-bg) !important; }
+
+  /* Maslow */
+  .pyramid{ display:flex; flex-direction:column; align-items:center; gap:6px; margin:1em 0 1.4em; }
+  .pyr-level{ display:flex; align-items:center; gap:0.8em; background:#fff; border:1.5px solid var(--paper-line); border-radius:6px; padding:0.5em 0.9em; }
+  .pyr-level .lvl-label-slot{ flex:0 0 auto; min-width:11em; }
+  .pyr-level .lvl-examples{ display:flex; flex-wrap:wrap; gap:0.4em; flex:1; }
+  .pyr-level .lvl-examples .slot{ min-width:6em; min-height:2em; font-size:0.82em; }
+  .pyr-level.w1{ width:40%; background:#FBF3E4; } .pyr-level.w2{ width:55%; background:#FAF0E8; }
+  .pyr-level.w3{ width:70%; background:#F8ECEC; } .pyr-level.w4{ width:85%; background:#EFF0F5; }
+  .pyr-level.w5{ width:100%; background:#EAF0EA; }
+
+  /* Rubicon Layout */
+  .rubicon-wrap{ overflow-x:auto; padding-bottom:0.4em; }
+  .rubicon-grid{ display:grid; grid-template-columns: minmax(135px, 1fr) auto minmax(135px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr); gap:0.6em; min-width:720px; margin-top:0.6em; }
+  .rub-v-divider { grid-column: 2; grid-row: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 0.1em; }
+  .rub-v-divider .v-text { writing-mode: vertical-rl; transform: rotate(180deg); color: var(--ink-soft); font-weight: 700; font-size: 0.85em; letter-spacing: 0.2em; margin-bottom: 0.5em; }
+  .rub-v-divider .v-line { flex: 1; border-left: 2px dashed var(--ink-soft); }
+  .rub-header .slot{ width:100%; min-height:2.6em; font-size:0.85em; }
+  .rub-phase .slot{ width:100%; min-height:2.8em; font-size:0.95em; }
+  .rub-example .slot{ width:100%; min-height:2.8em; font-size:0.85em; }
+  .rub-zone{ background:var(--paper); border:2px dotted var(--paper-line); border-radius:8px; padding:0.5em; min-height:6.5em; display:flex; flex-direction:column; gap:0.35em; align-items:flex-start; }
+  .rub-zone .piece{ width:100%; text-align:left; }
+
+  .hint{ font-size:0.82em; color:var(--ink-soft); margin-bottom:0.8em; }
+  footer{ max-width:760px; margin:2em auto 0; padding:0 1.4em; font-size:0.78em; color:var(--ink-soft); text-align:center; }
+  
+  /* Locked State */
+  .locked-ui .piece { pointer-events: none; opacity: 0.9; }
+  .locked-ui select, .locked-ui input { pointer-events: none; background: #f5f5f5; }
+  .locked-ui .slot, .locked-ui .rub-zone { pointer-events: none; }
+  
+  #submit-section { text-align: center; margin-top: 3em; margin-bottom: 2em; padding-top: 2em; border-top: 2px dashed var(--paper-line); }
+  
+  #result-overlay { display: none; background: var(--card); border: 2px solid var(--navy); border-radius: 12px; padding: 2em; text-align: center; margin-top: 2em; box-shadow: 0 10px 30px rgba(51, 65, 92, 0.15); }
+  #result-overlay h2 { font-family: 'Fraunces', serif; color: var(--navy); margin-top: 0; font-size: 2em;}
+  .result-stats { display: flex; justify-content: center; gap: 2em; margin: 1.5em 0; }
+  .stat-box { background: var(--paper); padding: 1em 1.5em; border-radius: 8px; border: 1px solid var(--paper-line); }
+  .stat-box .val { font-size: 2em; font-weight: 700; color: var(--navy); display: block; line-height: 1; margin-bottom: 0.1em; }
+  .stat-box .lbl { font-size: 0.8em; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em;}
+  
+  /* Loader */
+  #loader { display: none; margin: 1em auto; font-size: 0.9em; font-weight: bold; color: var(--navy); }
+
+  @media (max-width:520px){
+    header.title-block{ flex-direction:column; align-items:flex-start; gap:0.3em; }
+    header.title-block .meta{ text-align:left; align-items:flex-start; }
+    .pyr-level{ flex-direction:column; align-items:stretch; }
+    .pyr-level .lvl-label-slot{ min-width:0; }
+    .result-stats { flex-direction: column; gap: 1em; }
+  }
+
+  /* --- Print (PDF) Styles --- */
+  @media print {
+    body { background: #fff !important; background-image: none !important; padding: 0 !important; }
+    .sheet { max-width: 100% !important; padding: 0 !important; margin: 0 !important; display: block !important; }
+    .auth-overlay, #admin-dashboard, .intro, .hint, .bank, #submit-section, #result-overlay .btn, .logout-btn { display: none !important; }
+    section.task { break-inside: avoid; page-break-inside: avoid; border: 1px solid #ddd !important; box-shadow: none !important; margin-bottom: 2em !important; background: #fff !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="auth-overlay" id="login-overlay">
+  <div class="login-box">
+    <h2>Login Arbeitsblatt</h2>
+    <p style="font-size: 0.9em; color: var(--ink-soft); margin-bottom: 1.5em;">Bitte melde dich mit deinem Benutzernamen und Passwort an.</p>
+    <div id="login-error" class="login-error"></div>
+    <input type="text" id="login-user" placeholder="Benutzername (z.B. Student1)">
+    <input type="password" id="login-pass" placeholder="Passwort">
+    <button class="btn large" style="width: 100%;" id="login-btn" onclick="handleLogin()">Anmelden</button>
+    <div id="login-loader" style="display:none; font-size: 0.8em; margin-top: 1em; color: var(--navy);">Verbinde mit GitHub...</div>
+    <div class="login-footer">Hirscher</div>
+  </div>
+</div>
+
+<div id="admin-dashboard">
+  <div class="admin-header">
+    <h1>Lehrer-Dashboard</h1>
+    <div>
+      <button class="btn outline" onclick="fetchAdminData()">Aktualisieren 🔄</button>
+      <button class="btn" style="margin-left:0.5em;" onclick="logout()">Abmelden</button>
+    </div>
+  </div>
+  <p>Hier siehst du die auf GitHub gespeicherten Ergebnisse.</p>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Schüler</th>
+        <th>Versuche</th>
+        <th>Punkte (letzter)</th>
+        <th>Note</th>
+        <th>Datum</th>
+        <th>Aktion</th>
+      </tr>
+    </thead>
+    <tbody id="admin-table-body">
+      <tr><td colspan="6" style="text-align:center;">Lade Daten...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sheet" id="worksheet">
+
+  <header class="title-block">
+    <h1>Bedürfnisse und Motivation</h1>
+    <div class="meta">
+      <span class="hirscher-branding">Hirscher</span>
+      <span>Interaktives Arbeitsblatt</span>
+      <span>Schüler: <span id="display-student-name" class="student-name-display"></span></span>
+      <button class="logout-btn" onclick="logout()">Abmelden</button>
+    </div>
+  </header>
+  <p class="intro">Bearbeite die Aufgaben. Bei den Puzzle-Aufgaben klickst du zuerst ein Teil im Baustein-Feld an und danach das Zielfeld, in das es gehört. Am Ende klickst du ganz unten auf "Arbeitsblatt abgeben".</p>
+
+  <section class="task" id="task1">
+    <div class="task-head">
+      <span class="task-num">1</span>
+      <h2>Was war die Grundidee von Abraham Maslow?</h2>
+      <span class="points">2 P</span>
+    </div>
+    <select class="answer-select" id="q1-select">
+      <option value="" selected disabled>Antwort auswählen …</option>
+      <option value="a">Alle Menschen haben zu jedem Zeitpunkt exakt dieselben Bedürfnisse in derselben Stärke.</option>
+      <option value="b">Motivation entsteht ausschließlich durch äußere Belohnungen wie Geld oder Lob.</option>
+      <option value="c">Bedürfnisse sind hierarchisch geordnet: Erst wenn niedrigere Bedürfnisse (z. B. körperliche) erfüllt sind, werden höhere (z. B. Selbstverwirklichung) handlungsleitend.</option>
+      <option value="d">Bedürfnisse treten zufällig auf und stehen in keinem Zusammenhang zueinander.</option>
+    </select>
+  </section>
+
+  <section class="task" id="task2">
+    <div class="task-head">
+      <span class="task-num">2</span>
+      <h2>Was haben Bedürfnisse und Motivation miteinander zu tun?</h2>
+      <span class="points">2 P</span>
+    </div>
+    <select class="answer-select" id="q2-select">
+      <option value="" selected disabled>Antwort auswählen …</option>
+      <option value="a">Bedürfnisse und Motivation haben nichts miteinander zu tun, sie entstehen unabhängig voneinander.</option>
+      <option value="b">Nur negative Bedürfnisse wie Angst können motivierend wirken.</option>
+      <option value="c">Motivation entsteht immer vor dem Bedürfnis und erzeugt dieses erst.</option>
+      <option value="d">Ein unbefriedigtes Bedürfnis erzeugt eine Spannung, die uns antreibt (motiviert), Handlungen zur Bedürfnisbefriedigung auszuführen.</option>
+    </select>
+  </section>
+
+  <section class="task" id="task3">
+    <div class="task-head">
+      <span class="task-num">3</span>
+      <h2>Wenn man von Motivation spricht, unterscheidet man meist zwischen zwei Formen</h2>
+      <span class="points">4 P</span>
+    </div>
+    <p class="hint">Trage die Bezeichnungen der beiden Formen ("intrinsisch" und "extrinsisch") in die Felder ein und wähle im Dropdown darunter jeweils die dazu passende Definition aus.</p>
+    
+    <div style="background: var(--paper); padding: 1em; border-radius: 8px; border: 1px solid var(--paper-line); margin-bottom: 1em;">
+      <label class="hint" style="display:block; margin-bottom:0.4em; font-weight:600; color:var(--navy);">Erste Form der Motivation:</label>
+      <input type="text" id="q3-term1" class="term-input" placeholder="Begriff eintragen (z. B. intrinsisch / extrinsisch)">
+      <select class="answer-select" id="q3-def1" style="margin-bottom:0;">
+        <option value="" selected disabled>Dazugehörige Definition wählen …</option>
+        <option value="ext">Der Antrieb kommt von außen — man handelt wegen einer Belohnung, Anerkennung oder um eine Bestrafung zu vermeiden.</option>
+        <option value="int">Der Antrieb kommt aus der Person selbst — man handelt, weil die Tätigkeit an sich Freude macht, interessant ist oder den eigenen Werten entspricht.</option>
+        <option value="none">Der Antrieb entsteht erst durch den Abschluss der Handlung, unabhängig vom inneren Zustand.</option>
+      </select>
+    </div>
+
+    <div style="background: var(--paper); padding: 1em; border-radius: 8px; border: 1px solid var(--paper-line);">
+      <label class="hint" style="display:block; margin-bottom:0.4em; font-weight:600; color:var(--navy);">Zweite Form der Motivation:</label>
+      <input type="text" id="q3-term2" class="term-input" placeholder="Begriff eintragen (z. B. intrinsisch / extrinsisch)">
+      <select class="answer-select" id="q3-def2" style="margin-bottom:0;">
+        <option value="" selected disabled>Dazugehörige Definition wählen …</option>
+        <option value="int">Der Antrieb kommt aus der Person selbst — man handelt, weil die Tätigkeit an sich Freude macht, interessant ist oder den eigenen Werten entspricht.</option>
+        <option value="none">Der Antrieb entsteht erst durch den Abschluss der Handlung, unabhängig vom inneren Zustand.</option>
+        <option value="ext">Der Antrieb kommt von außen — man handelt wegen einer Belohnung, Anerkennung oder um eine Bestrafung zu vermeiden.</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="task" id="task4">
+    <div class="task-head">
+      <span class="task-num">4</span>
+      <h2>Welche dieser Formen gilt als hochwertiger und nachhaltiger?</h2>
+      <span class="points">1 P</span>
+    </div>
+    <select class="answer-select" id="q4-select">
+      <option value="" selected disabled>Antwort auswählen …</option>
+      <option value="a">Extrinsische Motivation, da äußere Belohnungen immer stärker wirken als innerer Antrieb.</option>
+      <option value="b">Intrinsische Motivation, da sie aus eigenem Antrieb entsteht und meist nachhaltiger und stabiler wirkt.</option>
+      <option value="c">Beide Formen sind in jedem Fall exakt gleichwertig.</option>
+      <option value="d">Keine der beiden Formen hat einen erkennbaren Effekt auf das Verhalten.</option>
+    </select>
+  </section>
+
+  <section class="task" id="taskMaslow">
+    <div class="task-head">
+      <span class="task-num">★</span>
+      <h2>Ordne die Maslow-Pyramide</h2>
+      <span class="points">15 P</span>
+    </div>
+    <p class="hint">Klicke zuerst eine Stufen-Bezeichnung an und setze sie in das passende Feld der Pyramide (unten = Grundbedürfnisse, oben = höchste Stufe). Ordne anschließend die Beispiele der richtigen Stufe zu.</p>
+
+    <div class="bank" id="bank-maslow-labels">
+      <button class="piece" data-group="maslow-labels" data-value="soziale">Soziale Bedürfnisse</button>
+      <button class="piece" data-group="maslow-labels" data-value="physiologisch">Physiologische Bedürfnisse</button>
+      <button class="piece" data-group="maslow-labels" data-value="selbstverwirklichung">Selbstverwirklichung</button>
+      <button class="piece" data-group="maslow-labels" data-value="wertschaetzung">Wertschätzung / Anerkennung</button>
+      <button class="piece" data-group="maslow-labels" data-value="sicherheit">Sicherheitsbedürfnisse</button>
+    </div>
+
+    <div class="bank" id="bank-maslow-examples">
+      <button class="piece small" data-group="maslow-examples" data-value="soziale">Freundschaften</button>
+      <button class="piece small" data-group="maslow-examples" data-value="sicherheit">sicherer Arbeitsplatz</button>
+      <button class="piece small" data-group="maslow-examples" data-value="selbstverwirklichung">Kreativität ausleben</button>
+      <button class="piece small" data-group="maslow-examples" data-value="physiologisch">Nahrung &amp; Wasser</button>
+      <button class="piece small" data-group="maslow-examples" data-value="wertschaetzung">gesellschaftlicher Status</button>
+      <button class="piece small" data-group="maslow-examples" data-value="sicherheit">sichere Wohnung</button>
+      <button class="piece small" data-group="maslow-examples" data-value="selbstverwirklichung">eigenes Potenzial entfalten</button>
+      <button class="piece small" data-group="maslow-examples" data-value="physiologisch">Schlaf</button>
+      <button class="piece small" data-group="maslow-examples" data-value="wertschaetzung">Anerkennung im Beruf</button>
+      <button class="piece small" data-group="maslow-examples" data-value="soziale">Familie / Zugehörigkeit</button>
+    </div>
+
+    <div class="pyramid">
+      <div class="pyr-level w1">
+        <div class="slot lvl-label-slot" data-group="maslow-labels" data-answer="selbstverwirklichung"></div>
+        <div class="lvl-examples">
+          <div class="slot" data-group="maslow-examples" data-answer="selbstverwirklichung"></div>
+          <div class="slot" data-group="maslow-examples" data-answer="selbstverwirklichung"></div>
+        </div>
+      </div>
+      <div class="pyr-level w2">
+        <div class="slot lvl-label-slot" data-group="maslow-labels" data-answer="wertschaetzung"></div>
+        <div class="lvl-examples">
+          <div class="slot" data-group="maslow-examples" data-answer="wertschaetzung"></div>
+          <div class="slot" data-group="maslow-examples" data-answer="wertschaetzung"></div>
+        </div>
+      </div>
+      <div class="pyr-level w3">
+        <div class="slot lvl-label-slot" data-group="maslow-labels" data-answer="soziale"></div>
+        <div class="lvl-examples">
+          <div class="slot" data-group="maslow-examples" data-answer="soziale"></div>
+          <div class="slot" data-group="maslow-examples" data-answer="soziale"></div>
+        </div>
+      </div>
+      <div class="pyr-level w4">
+        <div class="slot lvl-label-slot" data-group="maslow-labels" data-answer="sicherheit"></div>
+        <div class="lvl-examples">
+          <div class="slot" data-group="maslow-examples" data-answer="sicherheit"></div>
+          <div class="slot" data-group="maslow-examples" data-answer="sicherheit"></div>
+        </div>
+      </div>
+      <div class="pyr-level w5">
+        <div class="slot lvl-label-slot" data-group="maslow-labels" data-answer="physiologisch"></div>
+        <div class="lvl-examples">
+          <div class="slot" data-group="maslow-examples" data-answer="physiologisch"></div>
+          <div class="slot" data-group="maslow-examples" data-answer="physiologisch"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="task" id="task5">
+    <div class="task-head">
+      <span class="task-num">5</span>
+      <h2>Vervollständige das nachfolgende Handlungsmodell</h2>
+      <span class="points">25 P</span>
+    </div>
+    
+    <div style="margin-bottom: 1.5em;">
+      <label class="hint" style="display:block; margin-bottom:0.4em; font-weight:600; color:var(--navy);">Wie lautet der offizielle Name dieses Modells? (1 Pkt)</label>
+      <input type="text" id="rubicon-name" class="term-input" placeholder="Name des Modells eintragen...">
+    </div>
+
+    <p class="hint">Ordne zuerst die vier Phasennamen und die vier Überschriften den richtigen Feldern zu. Sortiere anschließend die Merkmale in die passende Spalte. Ganz unten fügst du die passenden Beispiele ein.</p>
+
+    <div class="bank" id="bank-rub-phase">
+      <button class="piece" data-group="rub-phase" data-value="handeln">Handeln</button>
+      <button class="piece" data-group="rub-phase" data-value="abwaegen">Abwägen</button>
+      <button class="piece" data-group="rub-phase" data-value="bewerten">Bewerten</button>
+      <button class="piece" data-group="rub-phase" data-value="planen">Planen</button>
+    </div>
+    <div class="bank" id="bank-rub-header">
+      <button class="piece" data-group="rub-header" data-value="bewerten">Auswertung</button>
+      <button class="piece" data-group="rub-header" data-value="planen">konkretes Ziel</button>
+      <button class="piece" data-group="rub-header" data-value="abwaegen">Wunsch</button>
+      <button class="piece" data-group="rub-header" data-value="handeln">Umsetzung</button>
+    </div>
+
+    <div class="rubicon-wrap">
+      <div class="rubicon-grid">
+        
+        <div class="rub-header" style="grid-column: 1"><div class="slot" data-group="rub-header" data-answer="abwaegen"></div></div>
+        
+        <div class="rub-v-divider">
+          <span class="v-text">RUBIKON</span>
+          <div class="v-line"></div>
+        </div>
+
+        <div class="rub-header" style="grid-column: 3"><div class="slot" data-group="rub-header" data-answer="planen"></div></div>
+        <div class="rub-header" style="grid-column: 4"><div class="slot" data-group="rub-header" data-answer="handeln"></div></div>
+        <div class="rub-header" style="grid-column: 5"><div class="slot" data-group="rub-header" data-answer="bewerten"></div></div>
+
+        <div class="rub-phase p1" style="grid-column: 1"><div class="slot" data-group="rub-phase" data-answer="abwaegen"></div></div>
+        <div class="rub-phase p2" style="grid-column: 3"><div class="slot" data-group="rub-phase" data-answer="planen"></div></div>
+        <div class="rub-phase p3" style="grid-column: 4"><div class="slot" data-group="rub-phase" data-answer="handeln"></div></div>
+        <div class="rub-phase p4" style="grid-column: 5"><div class="slot" data-group="rub-phase" data-answer="bewerten"></div></div>
+
+        <div class="rub-zone" id="zone-abwaegen" data-group="rub-zone" style="grid-column: 1"></div>
+        <div class="rub-zone" id="zone-planen" data-group="rub-zone" style="grid-column: 3"></div>
+        <div class="rub-zone" id="zone-handeln" data-group="rub-zone" style="grid-column: 4"></div>
+        <div class="rub-zone" id="zone-bewerten" data-group="rub-zone" style="grid-column: 5"></div>
+
+        <div class="rub-example" style="grid-column: 1; margin-top:0.4em;"><div class="slot" data-group="rub-example" data-answer="abwaegen"></div></div>
+        <div class="rub-example" style="grid-column: 3; margin-top:0.4em;"><div class="slot" data-group="rub-example" data-answer="planen"></div></div>
+        <div class="rub-example" style="grid-column: 4; margin-top:0.4em;"><div class="slot" data-group="rub-example" data-answer="handeln"></div></div>
+        <div class="rub-example" style="grid-column: 5; margin-top:0.4em;"><div class="slot" data-group="rub-example" data-answer="bewerten"></div></div>
+      </div>
+    </div>
+
+    <p class="hint" style="margin-top:1.1em;">Merkmale den vier Phasen zuordnen (Klick auf ein Merkmal, dann Klick auf die passende Spalte oben):</p>
+    <div class="bank" id="bank-rub-merkmale">
+      <button class="piece small" data-group="rub-zone" data-value="handeln">Beharrlichkeit</button>
+      <button class="piece small" data-group="rub-zone" data-value="abwaegen">Was will ich?</button>
+      <button class="piece small" data-group="rub-zone" data-value="planen">Konkret &amp; klar</button>
+      <button class="piece small" data-group="rub-zone" data-value="bewerten">Ziel erreicht?</button>
+      <button class="piece small" data-group="rub-zone" data-value="handeln">Abschirmung gegen Ablenkung</button>
+      <button class="piece small" data-group="rub-zone" data-value="bewerten">Selbstwertstärkung</button>
+      <button class="piece small" data-group="rub-zone" data-value="abwaegen">Alternativen abwägen</button>
+      <button class="piece small" data-group="rub-zone" data-value="planen">Teilschritte festlegen</button>
+      <button class="piece small" data-group="rub-zone" data-value="abwaegen">Habe ich die Mittel?</button>
+      <button class="piece small" data-group="rub-zone" data-value="bewerten">Erwartungen eingetroffen?</button>
+      <button class="piece small" data-group="rub-zone" data-value="handeln">Anstrengungsbereitschaft</button>
+      <button class="piece small" data-group="rub-zone" data-value="planen">Wenn-Dann-Pläne</button>
+    </div>
+
+    <p class="hint" style="margin-top:1.1em;">Ordne abschließend jedem Schritt genau ein passendes Praxis-Beispiel (ganz unten im Raster) zu:</p>
+    <div class="bank" id="bank-rub-examples">
+      <button class="piece small" data-group="rub-example" data-value="handeln">Trotz Müdigkeit weiterlernen</button>
+      <button class="piece small" data-group="rub-example" data-value="abwaegen">Überlegen, ob Studium oder Ausbildung</button>
+      <button class="piece small" data-group="rub-example" data-value="bewerten">Prüfen, ob Zeitziel erreicht wurde</button>
+      <button class="piece small" data-group="rub-example" data-value="planen">Einen festen Trainingsplan anlegen</button>
+    </div>
+  </section>
+
+  <div id="submit-section">
+    <button class="btn large" id="btn-submit" onclick="submitWorksheet()">Arbeitsblatt abgeben & Auswerten</button>
+    <div id="loader">Daten werden gespeichert...</div>
+  </div>
+
+  <div id="result-overlay">
+    <h2>Auswertung Abgeschlossen</h2>
+    <p>Deine Ergebnisse wurden gespeichert.</p>
+    <div class="result-stats">
+      <div class="stat-box">
+        <span class="val" id="res-points">-</span>
+        <span class="lbl">von 49 Punkten</span>
+      </div>
+      <div class="stat-box">
+        <span class="val" id="res-grade">-</span>
+        <span class="lbl">IHK Note</span>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:1em; margin-top:2em;">
+      <button class="btn outline" onclick="window.print()">📄 Als PDF speichern / Drucken</button>
+      <button class="btn" onclick="startNewAttempt()">Neuen Versuch starten</button>
+    </div>
+  </div>
+
+  <footer>Arbeitsblatt „Bedürfnisse und Motivation"</footer>
+</div>
+
+<script>
+  // ============================================================================
+  // GITHUB KONFIGURATION - HIER DEINE DATEN EINTRAGEN
+  // ============================================================================
+  const GITHUB_OWNER = 'DEIN_GITHUB_NAME';   // z.B. MaxMustermann
+  const GITHUB_REPO  = 'DEIN_REPO_NAME';     // z.B. wiso-arbeitsblaetter
+  const GITHUB_TOKEN = 'DEIN_GITHUB_TOKEN';  // z.B. ghp_1234567890abcdef...
+  const FILE_PATH    = 'daten/submissions.json';
+  // ============================================================================
+
+  let currentUserRole = null; // 'Admin', 'Student1', etc.
+  let currentAttemptNum = 1;
+
+  const accounts = {
+    'Admin': 'Admin',
+    'Student1': 'Tomate',
+    'Student2': 'Gurke',
+    'Student3': 'Moehre',
+    'Student4': 'Paprika'
+  };
+
+  // --- Base64 UTF-8 Helpers ---
+  function encodeBase64Unicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+      function toSolidBytes(match, p1) { return String.fromCharCode('0x' + p1); }));
+  }
+  function decodeBase64Unicode(str) {
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+
+  // --- GitHub API Helpers ---
+  async function fetchGitHubFile() {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }});
+    if (res.status === 404) return { data: [], sha: null }; 
+    if (!res.ok) throw new Error("GitHub Fetch Error: " + res.statusText);
+    const json = await res.json();
+    const content = decodeBase64Unicode(json.content);
+    return { data: JSON.parse(content), sha: json.sha };
+  }
+
+  async function saveGitHubFile(dataObj, sha, message) {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
+    const contentStr = JSON.stringify(dataObj, null, 2);
+    const encodedContent = encodeBase64Unicode(contentStr);
+    const body = { message: message, content: encodedContent };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error("GitHub Save Error: " + res.status);
+    return res;
+  }
+
+  // --- Login Logic ---
+  window.handleLogin = async function() {
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
+    const errEl = document.getElementById('login-error');
+    
+    if(!accounts[user]) { errEl.textContent = "Benutzername nicht gefunden."; return; }
+    if(accounts[user] !== pass) { errEl.textContent = "Falsches Passwort."; return; }
+    
+    document.getElementById('login-btn').style.display = 'none';
+    document.getElementById('login-loader').style.display = 'block';
+    
+    try {
+      currentUserRole = user;
+      document.getElementById('login-overlay').style.display = 'none';
+      
+      if(user === 'Admin') {
+        document.getElementById('admin-dashboard').style.display = 'block';
+        await fetchAdminData();
+      } else {
+        document.getElementById('worksheet').style.display = 'block';
+        document.getElementById('display-student-name').textContent = user;
+        await setAttemptCount(user);
+      }
+    } catch(e) {
+      errEl.textContent = "Fehler bei der Verbindung mit GitHub. Prüfe die Konfiguration.";
+      console.error(e);
+    } finally {
+      document.getElementById('login-btn').style.display = 'block';
+      document.getElementById('login-loader').style.display = 'none';
+    }
+  };
+
+  window.logout = function() {
+    currentUserRole = null;
+    document.getElementById('admin-dashboard').style.display = 'none';
+    document.getElementById('worksheet').style.display = 'none';
+    document.getElementById('login-overlay').style.display = 'flex';
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-error').textContent = '';
+  }
+
+  // --- Admin Logic ---
+  window.fetchAdminData = async function() {
+    const tbody = document.getElementById('admin-table-body');
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Lade Daten...</td></tr>';
+    try {
+      const file = await fetchGitHubFile();
+      const submissions = file.data;
+      
+      if(submissions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Keine Einreichungen vorhanden.</td></tr>';
+        return;
+      }
+      
+      // Group by student (keep latest attempt for display, count totals)
+      let students = {};
+      submissions.forEach(sub => {
+        if(!students[sub.studentName] || sub.attemptNumber > students[sub.studentName].attemptNumber) {
+          const count = (students[sub.studentName]?.totalAttempts || 0) + 1;
+          students[sub.studentName] = { ...sub, totalAttempts: count };
+        } else {
+          students[sub.studentName].totalAttempts++;
+        }
+      });
+      
+      tbody.innerHTML = '';
+      Object.keys(students).sort().forEach(name => {
+        const s = students[name];
+        const dateStr = new Date(s.timestamp).toLocaleString('de-DE');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${name}</strong></td>
+          <td>${s.totalAttempts}</td>
+          <td>${s.points} / ${s.maxPoints}</td>
+          <td><span class="tag-grade grade-${s.grade}">Note ${s.grade}</span></td>
+          <td>${dateStr}</td>
+          <td><button class="btn-small" onclick="resetStudent('${name}')">Zurücksetzen</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch(e) {
+      console.error(e);
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Fehler beim Laden (GitHub API)</td></tr>';
+    }
+  }
+
+  window.resetStudent = async function(studentName) {
+    if(!confirm(`Möchtest du wirklich alle Versuche von ${studentName} löschen?`)) return;
+    try {
+      const file = await fetchGitHubFile();
+      const filtered = file.data.filter(s => s.studentName !== studentName);
+      await saveGitHubFile(filtered, file.sha, `Admin: Reset student ${studentName}`);
+      alert("Erfolgreich zurückgesetzt.");
+      fetchAdminData();
+    } catch (e) {
+      alert("Fehler beim Zurücksetzen.");
+      console.error(e);
+    }
+  }
+
+  // --- Student Logic (Attempt Counter) ---
+  async function setAttemptCount(studentName) {
+    const file = await fetchGitHubFile();
+    let maxAttempt = 0;
+    file.data.forEach(sub => {
+      if(sub.studentName === studentName && sub.attemptNumber > maxAttempt) {
+        maxAttempt = sub.attemptNumber;
+      }
+    });
+    currentAttemptNum = maxAttempt + 1;
+  }
+
+  // --- Puzzle Mechanic ---
+  let selectedPiece = null;
+  document.addEventListener('click', function(e){
+    if(document.body.classList.contains('locked-ui')) return; 
+    
+    const piece = e.target.closest('.piece');
+    const slot = e.target.closest('.slot');
+    const zone = e.target.closest('.rub-zone');
+
+    if(piece && piece.parentElement.classList.contains('bank')){
+      if(selectedPiece) selectedPiece.classList.remove('selected');
+      if(selectedPiece === piece){ selectedPiece = null; return; }
+      selectedPiece = piece;
+      piece.classList.add('selected');
+      return;
+    }
+    if(piece && (piece.parentElement.classList.contains('slot') || piece.parentElement.classList.contains('rub-zone'))){
+      returnPieceToBank(piece);
+      if(selectedPiece){ selectedPiece.classList.remove('selected'); selectedPiece = null; }
+      return;
+    }
+    if(slot && !piece){
+      if(!selectedPiece) return;
+      if(selectedPiece.dataset.group !== slot.dataset.group) return;
+      if(slot.children.length > 0) return;
+      slot.appendChild(selectedPiece);
+      selectedPiece.classList.remove('selected');
+      selectedPiece.classList.add('placed');
+      selectedPiece = null;
+      return;
+    }
+    if(zone && !piece){
+      if(!selectedPiece) return;
+      if(selectedPiece.dataset.group !== 'rub-zone') return;
+      zone.appendChild(selectedPiece);
+      selectedPiece.classList.remove('selected');
+      selectedPiece.classList.add('placed');
+      selectedPiece = null;
+      return;
+    }
+  });
+
+  function returnPieceToBank(piece){
+    const group = piece.dataset.group;
+    let bankId;
+    if(group === 'maslow-labels') bankId = 'bank-maslow-labels';
+    else if(group === 'maslow-examples') bankId = 'bank-maslow-examples';
+    else if(group === 'rub-phase') bankId = 'bank-rub-phase';
+    else if(group === 'rub-header') bankId = 'bank-rub-header';
+    else if(group === 'rub-zone') bankId = 'bank-rub-merkmale';
+    else if(group === 'rub-example') bankId = 'bank-rub-examples';
+    
+    if(!bankId) return;
+    piece.classList.remove('placed','selected');
+    document.getElementById(bankId).appendChild(piece);
+  }
+
+  // --- Evaluation Logic ---
+  window.submitWorksheet = async function() {
+    document.getElementById('btn-submit').style.display = 'none';
+    document.getElementById('loader').style.display = 'block';
+
+    let totalPoints = 0;
+    const MAX_POINTS = 49;
+
+    // T1
+    const sel1 = document.getElementById('q1-select');
+    if(sel1.value === 'c') { totalPoints += 2; sel1.classList.add('ok'); } else { sel1.classList.add('err'); }
+    // T2
+    const sel2 = document.getElementById('q2-select');
+    if(sel2.value === 'd') { totalPoints += 2; sel2.classList.add('ok'); } else { sel2.classList.add('err'); }
+    // T3
+    let t1 = document.getElementById('q3-term1'), s1 = document.getElementById('q3-def1');
+    let t2 = document.getElementById('q3-term2'), s2 = document.getElementById('q3-def2');
+    function evalTask3Row(t, s) {
+      let val = t.value.toLowerCase().trim(); let sel = s.value;
+      let pts = 0; let type = '';
+      if(val.includes('intrinsisch')) {
+        t.classList.add('ok'); pts++; type = 'int';
+        if(sel === 'int') { s.classList.add('ok'); pts++; } else { s.classList.add('err'); }
+      } else if(val.includes('extrinsisch')) {
+        t.classList.add('ok'); pts++; type = 'ext';
+        if(sel === 'ext') { s.classList.add('ok'); pts++; } else { s.classList.add('err'); }
+      } else { t.classList.add('err'); s.classList.add('err'); }
+      return { pts, type };
+    }
+    let res1 = evalTask3Row(t1, s1); let res2 = evalTask3Row(t2, s2);
+    if(res1.type === res2.type && res1.type !== '') {
+      t2.classList.replace('ok', 'err'); s2.classList.replace('ok', 'err');
+      totalPoints += res1.pts; 
+    } else { totalPoints += (res1.pts + res2.pts); }
+    // T4
+    const sel4 = document.getElementById('q4-select');
+    if(sel4.value === 'b') { totalPoints += 1; sel4.classList.add('ok'); } else { sel4.classList.add('err'); }
+    
+    // Maslow & Rubicon Puzzles
+    ['maslow-labels', 'maslow-examples', 'rub-phase','rub-header','rub-example'].forEach(g => {
+      document.querySelectorAll('.slot[data-group="'+g+'"]').forEach(slot => {
+        const p = slot.querySelector('.piece');
+        if(p && p.dataset.value === slot.dataset.answer){
+          slot.classList.add('correct'); totalPoints++;
+        } else if(p) { slot.classList.add('incorrect'); }
+      });
+    });
+
+    // Rubicon Name
+    const rName = document.getElementById('rubicon-name');
+    const rNameVal = rName.value.toLowerCase().trim().replace(/\s+/g, '');
+    if(rNameVal === 'rubikon-modell' || rNameVal === 'rubikonmodell' || rNameVal === 'rubiconmodell' || rNameVal === 'rubicon-modell') {
+      rName.classList.add('ok'); totalPoints++;
+    } else { rName.classList.add('err'); }
+
+    // Rubicon Zones
+    const zoneMap = {abwaegen:'zone-abwaegen', planen:'zone-planen', handeln:'zone-handeln', bewerten:'zone-bewerten'};
+    Object.keys(zoneMap).forEach(key => {
+      document.getElementById(zoneMap[key]).querySelectorAll('.piece').forEach(p => {
+        if(p.dataset.value === key){
+          p.style.boxShadow = '0 0 0 2px var(--moss) inset'; totalPoints++;
+        } else {
+          p.style.boxShadow = '0 0 0 2px var(--clay) inset';
+        }
+      });
+    });
+
+    let percent = totalPoints / MAX_POINTS;
+    let grade = 6;
+    if(percent >= 0.92) grade = 1; else if(percent >= 0.81) grade = 2; else if(percent >= 0.67) grade = 3;
+    else if(percent >= 0.50) grade = 4; else if(percent >= 0.30) grade = 5;
+
+    // Retry Logic for GitHub Save (handles concurrent student submissions)
+    let saveSuccess = false;
+    let attempts = 0;
+    while (!saveSuccess && attempts < 3) {
+      try {
+        attempts++;
+        const file = await fetchGitHubFile();
+        const newEntry = {
+          studentName: currentUserRole,
+          attemptNumber: currentAttemptNum,
+          points: totalPoints,
+          maxPoints: MAX_POINTS,
+          grade: grade,
+          timestamp: new Date().toISOString()
+        };
+        file.data.push(newEntry);
+        await saveGitHubFile(file.data, file.sha, `Student ${currentUserRole} submitted attempt ${currentAttemptNum}`);
+        saveSuccess = true;
+      } catch (e) {
+        console.warn(`Save attempt ${attempts} failed, retrying...`, e);
+        if (attempts === 3) alert("Achtung: Ergebnisse konnten nach 3 Versuchen nicht auf GitHub gespeichert werden.");
+      }
+    }
+
+    // UI Updates
+    document.body.classList.add('locked-ui');
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('submit-section').style.display = 'none';
+    
+    document.getElementById('res-points').textContent = totalPoints;
+    document.getElementById('res-grade').textContent = grade;
+    document.getElementById('res-grade').className = 'val grade-' + grade;
+    document.getElementById('result-overlay').style.display = 'block';
+  }
+
+  window.startNewAttempt = function() {
+    document.body.classList.remove('locked-ui');
+    document.getElementById('submit-section').style.display = 'block';
+    document.getElementById('btn-submit').style.display = 'inline-block';
+    document.getElementById('result-overlay').style.display = 'none';
+    
+    document.querySelectorAll('select.answer-select').forEach(s => { s.value = ''; s.classList.remove('ok','err'); });
+    document.querySelectorAll('input.term-input').forEach(i => { i.value = ''; i.classList.remove('ok','err'); });
+    
+    document.querySelectorAll('.slot, .rub-zone').forEach(container => {
+      container.classList.remove('correct','incorrect');
+      container.querySelectorAll('.piece').forEach(p => {
+        p.style.boxShadow = ''; 
+        returnPieceToBank(p);
+      });
+    });
+    
+    currentAttemptNum++;
+    window.scrollTo(0,0);
+  }
+</script>
+</body>
+</html>
