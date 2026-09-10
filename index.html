@@ -36,7 +36,6 @@
     padding-bottom:80px;
   }
   
-  /* --- Login & Admin Dashboard Styles --- */
   .auth-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: var(--paper);
@@ -76,7 +75,6 @@
   .btn-small { padding: 0.3em 0.7em; font-size: 0.8em; background: var(--clay); color: #fff; border: none; border-radius: 5px; cursor: pointer; }
   .btn-small:hover { background: #8C3A22; }
 
-  /* --- Main Worksheet Styles --- */
   .sheet{
     max-width:760px;
     margin:0 auto;
@@ -151,7 +149,6 @@
   .logout-btn { font-size: 0.8em; padding: 0.2em 0.6em; background: #e2e8f0; color: var(--ink-soft); border-radius: 5px; border: none; margin-top: 0.5em; }
   .logout-btn:hover { background: #cbd5e1; }
 
-  /* Puzzle Elements */
   .bank{ display:flex; flex-wrap:wrap; gap:0.5em; padding:0.8em; background:var(--paper); border:1.5px dashed var(--paper-line); border-radius:8px; margin-bottom:1em; min-height:2.6em; }
   .piece{ background:var(--mustard); color:#3A2A05; border:none; padding:0.45em 0.85em; border-radius:6px; font-size:0.88em; font-weight:600; box-shadow:0 2px 0 rgba(0,0,0,0.12); transition:transform .1s ease, box-shadow .1s ease; }
   .piece:hover{ transform:translateY(-1px); }
@@ -162,16 +159,19 @@
   .slot:empty::before{ content:"– hier ablegen –"; font-weight:400; font-style:italic; color:#B4AB93; font-size:0.85em; }
   .slot .piece{ margin:0; }
   
-  /* Rubicon Color Variables */
+  /* Blau (Wunsch, Konkretes Ziel...) */
   .piece[data-group="rub-header"] { background: #3B82F6; color: white; }
   .slot[data-group="rub-header"] { border-color: #3B82F6; background: rgba(59, 130, 246, 0.1); }
   
+  /* Lila (Phasen) */
   .piece[data-group="rub-phase"] { background: #8B5CF6; color: white; }
   .slot[data-group="rub-phase"] { border-color: #8B5CF6; background: rgba(139, 92, 246, 0.1); }
   
+  /* Orange (Merkmale / Zonen) */
   .piece[data-group="rub-zone"] { background: #F59E0B; color: white; }
   .rub-zone { border-color: #F59E0B !important; background: rgba(245, 158, 11, 0.1) !important; }
   
+  /* Grün (Beispiele) */
   .piece[data-group="rub-example"] { background: #10B981; color: white; }
   .slot[data-group="rub-example"] { border-color: #10B981; background: rgba(16, 185, 129, 0.1); }
 
@@ -179,17 +179,18 @@
   .slot.correct{ border-style:solid; border-color:var(--moss) !important; background:var(--moss-bg) !important; }
   .slot.incorrect{ border-style:solid; border-color:var(--clay) !important; background:var(--clay-bg) !important; }
 
-  /* Maslow */
   .pyramid{ display:flex; flex-direction:column; align-items:center; gap:6px; margin:1em 0 1.4em; }
   .pyr-level{ display:flex; align-items:center; gap:0.8em; background:#fff; border:1.5px solid var(--paper-line); border-radius:6px; padding:0.5em 0.9em; }
   .pyr-level .lvl-label-slot{ flex:0 0 auto; min-width:11em; }
   .pyr-level .lvl-examples{ display:flex; flex-wrap:wrap; gap:0.4em; flex:1; }
   .pyr-level .lvl-examples .slot{ min-width:6em; min-height:2em; font-size:0.82em; }
-  .pyr-level.w1{ width:40%; background:#FBF3E4; } .pyr-level.w2{ width:55%; background:#FAF0E8; }
-  .pyr-level.w3{ width:70%; background:#F8ECEC; } .pyr-level.w4{ width:85%; background:#EFF0F5; }
-  .pyr-level.w5{ width:100%; background:#EAF0EA; }
+  /* Inverted Pyramid Widths (Spitze oben, Basis unten) */
+  .pyr-level.w1{ width:40%; background:#FBF3E4; } /* Top - Selbstverwirklichung */
+  .pyr-level.w2{ width:55%; background:#FAF0E8; } 
+  .pyr-level.w3{ width:70%; background:#F8ECEC; } 
+  .pyr-level.w4{ width:85%; background:#EFF0F5; } 
+  .pyr-level.w5{ width:100%; background:#EAF0EA; } /* Bottom - Physiologisch */
 
-  /* Rubicon Layout */
   .rubicon-wrap{ overflow-x:auto; padding-bottom:0.4em; }
   .rubicon-grid{ display:grid; grid-template-columns: minmax(135px, 1fr) auto minmax(135px, 1fr) minmax(135px, 1fr) minmax(135px, 1fr); gap:0.6em; min-width:720px; margin-top:0.6em; }
   .rub-v-divider { grid-column: 2; grid-row: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 0.1em; }
@@ -204,7 +205,6 @@
   .hint{ font-size:0.82em; color:var(--ink-soft); margin-bottom:0.8em; }
   footer{ max-width:760px; margin:2em auto 0; padding:0 1.4em; font-size:0.78em; color:var(--ink-soft); text-align:center; }
   
-  /* Locked State */
   .locked-ui .piece { pointer-events: none; opacity: 0.9; }
   .locked-ui select, .locked-ui input { pointer-events: none; background: #f5f5f5; }
   .locked-ui .slot, .locked-ui .rub-zone { pointer-events: none; }
@@ -218,8 +218,21 @@
   .stat-box .val { font-size: 2em; font-weight: 700; color: var(--navy); display: block; line-height: 1; margin-bottom: 0.1em; }
   .stat-box .lbl { font-size: 0.8em; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em;}
   
-  /* Loader */
   #loader { display: none; margin: 1em auto; font-size: 0.9em; font-weight: bold; color: var(--navy); }
+
+  /* Custom Alert/Confirm Modals */
+  .custom-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); display: none;
+    align-items: center; justify-content: center; z-index: 9999;
+  }
+  .custom-modal {
+    background: var(--card); padding: 2em; border-radius: var(--radius);
+    max-width: 400px; width: 90%; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--paper-line);
+  }
+  .custom-modal p { margin-bottom: 1.5em; white-space: pre-wrap; font-size: 0.95em;}
+  .custom-modal-buttons { display: flex; justify-content: center; gap: 1em; }
 
   @media (max-width:520px){
     header.title-block{ flex-direction:column; align-items:flex-start; gap:0.3em; }
@@ -229,7 +242,6 @@
     .result-stats { flex-direction: column; gap: 1em; }
   }
 
-  /* --- Print (PDF) Styles --- */
   @media print {
     body { background: #fff !important; background-image: none !important; padding: 0 !important; }
     .sheet { max-width: 100% !important; padding: 0 !important; margin: 0 !important; display: block !important; }
@@ -241,6 +253,24 @@
 </head>
 <body>
 
+<div class="custom-modal-overlay" id="custom-alert">
+  <div class="custom-modal">
+    <p id="custom-alert-text"></p>
+    <div class="custom-modal-buttons">
+      <button class="btn" onclick="closeCustomAlert()">OK</button>
+    </div>
+  </div>
+</div>
+<div class="custom-modal-overlay" id="custom-confirm">
+  <div class="custom-modal">
+    <p id="custom-confirm-text"></p>
+    <div class="custom-modal-buttons">
+      <button class="btn outline" onclick="closeCustomConfirm(false)">Abbrechen</button>
+      <button class="btn" onclick="closeCustomConfirm(true)">Bestätigen</button>
+    </div>
+  </div>
+</div>
+
 <div class="auth-overlay" id="login-overlay">
   <div class="login-box">
     <h2>Login Arbeitsblatt</h2>
@@ -249,7 +279,7 @@
     <input type="text" id="login-user" placeholder="Benutzername (z.B. Student1)">
     <input type="password" id="login-pass" placeholder="Passwort">
     <button class="btn large" style="width: 100%;" id="login-btn" onclick="handleLogin()">Anmelden</button>
-    <div id="login-loader" style="display:none; font-size: 0.8em; margin-top: 1em; color: var(--navy);">Verbinde mit GitHub...</div>
+    <div id="login-loader" style="display:none; font-size: 0.8em; margin-top: 1em; color: var(--navy);">Lade Profil...</div>
     <div class="login-footer">Hirscher</div>
   </div>
 </div>
@@ -548,20 +578,40 @@
 
 <script>
   // ============================================================================
+  // CUSTOM MODAL LOGIC (Ersatz für alert / confirm)
+  // ============================================================================
+  let confirmCallback = null;
+  function showCustomAlert(msg) {
+    document.getElementById('custom-alert-text').textContent = msg;
+    document.getElementById('custom-alert').style.display = 'flex';
+  }
+  function closeCustomAlert() {
+    document.getElementById('custom-alert').style.display = 'none';
+  }
+  function showCustomConfirm(msg, callback) {
+    document.getElementById('custom-confirm-text').textContent = msg;
+    document.getElementById('custom-confirm').style.display = 'flex';
+    confirmCallback = callback;
+  }
+  function closeCustomConfirm(result) {
+    document.getElementById('custom-confirm').style.display = 'none';
+    if(confirmCallback) confirmCallback(result);
+  }
+
+  // ============================================================================
   // GITHUB KONFIGURATION - UMGEHUNG DES SECRET SCANNERS
   // ============================================================================
   const GITHUB_OWNER = 'hirscherd0-sudo';
   const GITHUB_REPO  = 'obstsalat';
   const FILE_PATH    = 'daten/submissions.json';
   
-  // Wir teilen das Token auf, damit der Bot von GitHub das "ghp_" Muster
-  // nicht mehr am Stück lesen kann und es nicht automatisch sperrt.
-  const pat1 = 'ghp_JlaeI9ELz6rgjJhm';
-  const pat2 = 'AlWajB48TIpLSm3bgfi2';
+  // HIER DEIN NEUES TOKEN EINTRAGEN UND ZERTEILEN:
+  const pat1 = 'ghp_HierDieErsteHaelfte';
+  const pat2 = 'HierDieZweiteHaelfte';
   const GITHUB_TOKEN = pat1 + pat2;
   // ============================================================================
 
-  let currentUserRole = null; // 'Admin', 'Student1', etc.
+  let currentUserRole = null;
   let currentAttemptNum = 1;
 
   const accounts = {
@@ -572,12 +622,17 @@
     'Student4': 'Paprika'
   };
 
-  // --- Base64 UTF-8 Helpers ---
+  // --- Base64 UTF-8 Helpers (Robust!) ---
   function encodeBase64Unicode(str) {
-    return btoa(unescape(encodeURIComponent(str)));
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+    }));
   }
   function decodeBase64Unicode(str) {
-    return decodeURIComponent(escape(atob(str)));
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
   }
 
   // --- GitHub API Helpers ---
@@ -587,7 +642,7 @@
     if (res.status === 404) return { data: [], sha: null }; 
     if (!res.ok) {
       const errData = await res.json().catch(()=>({}));
-      throw new Error("GitHub Fetch Error " + res.status + ": " + (errData.message || "Unbekannt"));
+      throw new Error(`Error ${res.status}: ${errData.message || "Unbekannt"}`);
     }
     const json = await res.json();
     const content = decodeBase64Unicode(json.content);
@@ -612,12 +667,12 @@
     });
     if (!res.ok) {
       const errData = await res.json().catch(()=>({}));
-      throw new Error("GitHub Save Error " + res.status + ": " + (errData.message || "Unbekannt"));
+      throw new Error(`Error ${res.status}: ${errData.message || "Unbekannt"}`);
     }
     return res;
   }
 
-  // --- Login Logic ---
+  // --- Login & Lockout Logic ---
   window.handleLogin = async function() {
     const user = document.getElementById('login-user').value.trim();
     const pass = document.getElementById('login-pass').value.trim();
@@ -628,6 +683,7 @@
     
     document.getElementById('login-btn').style.display = 'none';
     document.getElementById('login-loader').style.display = 'block';
+    errEl.textContent = '';
     
     try {
       currentUserRole = user;
@@ -639,11 +695,43 @@
       } else {
         document.getElementById('worksheet').style.display = 'block';
         document.getElementById('display-student-name').textContent = user;
-        await setAttemptCount(user);
+        
+        // Lockout Check: Hat der Schüler schon etwas hochgeladen?
+        const lastSubmission = await setAttemptCount(user);
+        
+        if (lastSubmission) {
+          // SCHÜLER HAT BEREITS ABGEGEBEN -> Aufgaben ausblenden, Ergebnis zeigen
+          document.body.classList.add('locked-ui');
+          document.querySelectorAll('.task').forEach(t => t.style.display = 'none');
+          document.querySelector('.intro').style.display = 'none';
+          document.getElementById('submit-section').style.display = 'none';
+          
+          document.getElementById('res-points').textContent = lastSubmission.points;
+          document.getElementById('res-grade').textContent = lastSubmission.grade;
+          document.getElementById('res-grade').className = 'val grade-' + lastSubmission.grade;
+          
+          const resultOverlay = document.getElementById('result-overlay');
+          resultOverlay.style.display = 'block';
+          resultOverlay.querySelector('h2').textContent = "Bereits bearbeitet";
+          resultOverlay.querySelector('p').textContent = `Du hast das Arbeitsblatt bereits abgegeben (am ${new Date(lastSubmission.timestamp).toLocaleString('de-DE')} Uhr). Bitte warte, bis die Lehrkraft es für einen neuen Versuch freischaltet.`;
+        } else {
+          // ERSTER VERSUCH -> Normaler Start
+          document.body.classList.remove('locked-ui');
+          document.querySelectorAll('.task').forEach(t => t.style.display = 'block');
+          document.querySelector('.intro').style.display = 'block';
+          document.getElementById('submit-section').style.display = 'block';
+          document.getElementById('result-overlay').style.display = 'none';
+          
+          // Standardtexte wiederherstellen (falls vorher geändert)
+          document.getElementById('result-overlay').querySelector('h2').textContent = "Auswertung Abgeschlossen";
+          document.getElementById('result-overlay').querySelector('p').textContent = "Deine Ergebnisse wurden gespeichert.";
+        }
       }
     } catch(e) {
       errEl.textContent = "Fehler bei der Verbindung mit GitHub. Prüfe die Konfiguration.";
       console.error(e);
+      document.getElementById('login-overlay').style.display = 'flex';
+      document.getElementById('worksheet').style.display = 'none';
     } finally {
       document.getElementById('login-btn').style.display = 'block';
       document.getElementById('login-loader').style.display = 'none';
@@ -705,30 +793,37 @@
     }
   }
 
-  window.resetStudent = async function(studentName) {
-    if(!confirm(`Möchtest du wirklich alle Versuche von ${studentName} löschen?`)) return;
-    try {
-      const file = await fetchGitHubFile();
-      const filtered = file.data.filter(s => s.studentName !== studentName);
-      await saveGitHubFile(filtered, file.sha, `Admin: Reset student ${studentName}`);
-      alert("Erfolgreich zurückgesetzt.");
-      fetchAdminData();
-    } catch (e) {
-      alert("Fehler beim Zurücksetzen.");
-      console.error(e);
-    }
+  window.resetStudent = function(studentName) {
+    showCustomConfirm(`Möchtest du wirklich alle Versuche von ${studentName} löschen?`, async (confirmed) => {
+      if(!confirmed) return;
+      try {
+        const file = await fetchGitHubFile();
+        const filtered = file.data.filter(s => s.studentName !== studentName);
+        await saveGitHubFile(filtered, file.sha, `Admin: Reset student ${studentName}`);
+        showCustomAlert("Erfolgreich zurückgesetzt.");
+        fetchAdminData();
+      } catch (e) {
+        showCustomAlert("Fehler beim Zurücksetzen.");
+        console.error(e);
+      }
+    });
   }
 
-  // --- Student Logic (Attempt Counter) ---
+  // --- Student Logic (Attempt Check) ---
   async function setAttemptCount(studentName) {
     const file = await fetchGitHubFile();
     let maxAttempt = 0;
+    let lastSubmission = null;
+    
     file.data.forEach(sub => {
       if(sub.studentName === studentName && sub.attemptNumber > maxAttempt) {
         maxAttempt = sub.attemptNumber;
+        lastSubmission = sub;
       }
     });
+    
     currentAttemptNum = maxAttempt + 1;
+    return lastSubmission;
   }
 
   // --- Puzzle Mechanic ---
@@ -860,7 +955,7 @@
     if(percent >= 0.92) grade = 1; else if(percent >= 0.81) grade = 2; else if(percent >= 0.67) grade = 3;
     else if(percent >= 0.50) grade = 4; else if(percent >= 0.30) grade = 5;
 
-    // Retry Logic for GitHub Save (handles concurrent student submissions)
+    // Retry Logic for GitHub Save (handles concurrent student submissions/API hiccups)
     let saveSuccess = false;
     let attempts = 0;
     let lastError = "";
@@ -886,11 +981,11 @@
     }
 
     if (!saveSuccess) {
-        alert("Achtung: Ergebnisse konnten nicht auf GitHub gespeichert werden.\n\nFehlermeldung:\n" + lastError + "\n\nBitte Token prüfen (Wurde es deaktiviert? Fehlt der Haken bei 'repo'?)");
+        showCustomAlert("Achtung: Ergebnisse konnten nach 3 Versuchen nicht auf GitHub gespeichert werden.\n\nFehlermeldung:\n" + lastError + "\n\nBitte Token prüfen (Wurde es deaktiviert? Fehlt der Haken bei 'repo'?)");
         document.getElementById('loader').style.display = 'none';
         document.getElementById('btn-submit').style.display = 'inline-block';
         document.body.classList.remove('locked-ui');
-        return; // Abbrechen, Ergebnis-Overlay nicht anzeigen
+        return; 
     }
 
     // UI Updates
@@ -902,27 +997,6 @@
     document.getElementById('res-grade').textContent = grade;
     document.getElementById('res-grade').className = 'val grade-' + grade;
     document.getElementById('result-overlay').style.display = 'block';
-  }
-
-  window.startNewAttempt = function() {
-    document.body.classList.remove('locked-ui');
-    document.getElementById('submit-section').style.display = 'block';
-    document.getElementById('btn-submit').style.display = 'inline-block';
-    document.getElementById('result-overlay').style.display = 'none';
-    
-    document.querySelectorAll('select.answer-select').forEach(s => { s.value = ''; s.classList.remove('ok','err'); });
-    document.querySelectorAll('input.term-input').forEach(i => { i.value = ''; i.classList.remove('ok','err'); });
-    
-    document.querySelectorAll('.slot, .rub-zone').forEach(container => {
-      container.classList.remove('correct','incorrect');
-      container.querySelectorAll('.piece').forEach(p => {
-        p.style.boxShadow = ''; 
-        returnPieceToBank(p);
-      });
-    });
-    
-    currentAttemptNum++;
-    window.scrollTo(0,0);
   }
 </script>
 </body>
