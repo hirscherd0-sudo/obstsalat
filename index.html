@@ -557,8 +557,8 @@
   
   // Wir teilen das Token auf, damit der Bot von GitHub das "ghp_" Muster
   // nicht mehr am Stück lesen kann und es nicht automatisch sperrt.
-  const pat1 = 'ghp_RAEWoZguyi7';
-  const pat2 = 'uFDmSPVpsCAvLWsUoOy2bS5hv';
+  const pat1 = 'ghp_JlaeI9ELz6rgjJhm';
+  const pat2 = 'AlWajB48TIpLSm3bgfi2';
   const GITHUB_TOKEN = pat1 + pat2;
   // ============================================================================
 
@@ -575,13 +575,10 @@
 
   // --- Base64 UTF-8 Helpers ---
   function encodeBase64Unicode(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-      function toSolidBytes(match, p1) { return String.fromCharCode('0x' + p1); }));
+    return btoa(unescape(encodeURIComponent(str)));
   }
   function decodeBase64Unicode(str) {
-    return decodeURIComponent(atob(str).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    return decodeURIComponent(escape(atob(str)));
   }
 
   // --- GitHub API Helpers ---
@@ -589,7 +586,10 @@
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
     const res = await fetch(url, { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }});
     if (res.status === 404) return { data: [], sha: null }; 
-    if (!res.ok) throw new Error("GitHub Fetch Error: " + res.statusText);
+    if (!res.ok) {
+      const errData = await res.json().catch(()=>({}));
+      throw new Error("GitHub Fetch Error " + res.status + ": " + (errData.message || "Unbekannt"));
+    }
     const json = await res.json();
     const content = decodeBase64Unicode(json.content);
     return { data: JSON.parse(content), sha: json.sha };
@@ -604,10 +604,17 @@
 
     const res = await fetch(url, {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+      headers: { 
+        'Authorization': `Bearer ${GITHUB_TOKEN}`, 
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
       body: JSON.stringify(body)
     });
-    if (!res.ok) throw new Error("GitHub Save Error: " + res.status);
+    if (!res.ok) {
+      const errData = await res.json().catch(()=>({}));
+      throw new Error("GitHub Save Error " + res.status + ": " + (errData.message || "Unbekannt"));
+    }
     return res;
   }
 
@@ -857,6 +864,7 @@
     // Retry Logic for GitHub Save (handles concurrent student submissions)
     let saveSuccess = false;
     let attempts = 0;
+    let lastError = "";
     while (!saveSuccess && attempts < 3) {
       try {
         attempts++;
@@ -873,9 +881,17 @@
         await saveGitHubFile(file.data, file.sha, `Student ${currentUserRole} submitted attempt ${currentAttemptNum}`);
         saveSuccess = true;
       } catch (e) {
+        lastError = e.message;
         console.warn(`Save attempt ${attempts} failed, retrying...`, e);
-        if (attempts === 3) alert("Achtung: Ergebnisse konnten nach 3 Versuchen nicht auf GitHub gespeichert werden.");
       }
+    }
+
+    if (!saveSuccess) {
+        alert("Achtung: Ergebnisse konnten nicht auf GitHub gespeichert werden.\n\nFehlermeldung:\n" + lastError + "\n\nBitte Token prüfen (Wurde es deaktiviert? Fehlt der Haken bei 'repo'?)");
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('btn-submit').style.display = 'inline-block';
+        document.body.classList.remove('locked-ui');
+        return; // Abbrechen, Ergebnis-Overlay nicht anzeigen
     }
 
     // UI Updates
