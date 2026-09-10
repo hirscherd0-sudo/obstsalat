@@ -6,5 +6,13 @@
     "maxPoints": 49,
     "grade": 6,
     "timestamp": "2026-09-10T06:41:11.848Z"
+  },
+  {
+    "studentName": "Student1",
+    "attemptNumber": 2,
+    "points": 22,
+    "maxPoints": 49,
+    "grade": 5,
+    "timestamp": "2026-09-10T06:43:26.616Z"
   }
 ]
