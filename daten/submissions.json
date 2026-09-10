@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "studentName": "Student1",
+    "attemptNumber": 1,
+    "points": 0,
+    "maxPoints": 49,
+    "grade": 6,
+    "timestamp": "2026-09-10T07:04:54.336Z"
+  }
+]
